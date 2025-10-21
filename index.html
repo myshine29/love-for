@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>给陈艺心的爱心</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            color: white;
+        }
+
+        .heart-container {
+            position: relative;
+            width: 100%;
+            height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .heart {
+            position: absolute;
+            width: 100px;
+            height: 90px;
+            animation: heartbeat 1.2s infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.7));
+        }
+
+        .heart:before,
+        .heart:after {
+            content: "";
+            position: absolute;
+            left: 50px;
+            top: 0;
+            width: 50px;
+            height: 80px;
+            background: #ff1493;
+            border-radius: 50px 50px 0 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .heart:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .message {
+            text-align: center;
+            z-index: 10;
+            margin-top: 20px;
+        }
+
+        .message h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: textGlow 2s infinite alternate;
+        }
+
+        .message p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .floating-hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            animation: float 6s linear infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            50% { transform: scale(1); }
+            75% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes textGlow {
+            from { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); }
+            to { text-shadow: 2px 2px 20px rgba(255, 255, 255, 0.5); }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .message h1 {
+                font-size: 2em;
+            }
+            .heart {
+                width: 80px;
+                height: 72px;
+            }
+            .heart:before,
+            .heart:after {
+                width: 40px;
+                height: 64px;
+                left: 40px;
+            }
+            .heart:after {
+                left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-container">
+        <div class="heart"></div>
+        <div class="floating-hearts" id="floatingHearts"></div>
+    </div>
+    
+    <div class="message">
+        <h1>陈艺心，我爱你！</h1>
+        <p>你是我生命中最美的奇迹 💖</p>
+        <p>永远爱你的那个人</p>
+    </div>
+
+    <script>
+        // 创建漂浮的小爱心
+        function createFloatingHearts() {
+            const container = document.getElementById('floatingHearts');
+            const heartCount = 20;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerHTML = '💖';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 6 + 's';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                container.appendChild(heart);
+            }
+        }
+
+        // 点击页面任何地方添加更多爱心
+        document.addEventListener('click', function(e) {
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.innerHTML = '💖';
+            heart.style.left = e.clientX + 'px';
+            heart.style.top = e.clientY + 'px';
+            heart.style.animationDuration = '3s';
+            document.getElementById('floatingHearts').appendChild(heart);
+            
+            // 3秒后移除爱心
+            setTimeout(() => {
+                heart.remove();
+            }, 3000);
+        });
+
+        // 页面加载完成后初始化
+        window.addEventListener('load', function() {
+            createFloatingHearts();
+            
+            // 添加页面标题动态效果
+            const title = document.querySelector('title');
+            let originalTitle = '给陈艺心的爱心';
+            let isOriginal = true;
+            
+            setInterval(() => {
+                title.textContent = isOriginal ? '💖 我爱你！ 💖' : originalTitle;
+                isOriginal = !isOriginal;
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
